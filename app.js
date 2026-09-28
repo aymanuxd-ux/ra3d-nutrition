@@ -248,6 +248,8 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
       if (skyFlash) skyFlash.classList.add("flash-active");
       heroPrimaryCta.classList.add("is-impact-flashing");
       heroPrimaryCta.classList.add("is-electrified");
+      var ctaWrapper = document.getElementById("ctaElectricWrapper");
+      if (ctaWrapper) ctaWrapper.classList.add("is-charged");
     });
 
     /* Build SVG container */
@@ -399,10 +401,25 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
   }
 
   /* ─── 5. Initial Welcome Strike Sequence ─── */
+  /* 1. يضرب ضربتين في السماء مرة واحدة */
+  /* 2. وبعد كدا يضرب الزرار كأنه بيشحنه وتفضل الشحنات الكهربائية العشوائية شغالة */
   setTimeout(function () {
-    lastStrikeTime = Date.now();
-    triggerCtaActivationStrike();
-    scheduleAmbientStrike();
-  }, 850);
+    if (document.hidden) return;
+
+    var viewW = window.innerWidth;
+    var viewH = window.innerHeight;
+
+    /* الخطوة 1: ضربتين في السماء مرة واحدة */
+    triggerAtmosphericStrike(Math.round(viewW * 0.22), Math.round(viewH * 0.48));
+    triggerAtmosphericStrike(Math.round(viewW * 0.78), Math.round(viewH * 0.52));
+
+    /* الخطوة 2: بعد كده يضرب الزرار كأنه بيشحنه */
+    setTimeout(function () {
+      if (document.hidden) return;
+      lastStrikeTime = Date.now();
+      triggerCtaActivationStrike();
+      scheduleAmbientStrike();
+    }, 720);
+  }, 420);
 })();
 
