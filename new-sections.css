@@ -1311,6 +1311,152 @@
     0 12px 36px rgba(37, 211, 102, 0.6) !important;
 }
 
+/* ───────── SCROLL READING PROGRESS BAR ───────── */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, #ff334b, #e01e37, #ff6b4a);
+  transform-origin: right center;
+  transform: scaleX(0);
+  z-index: 1001;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(255, 51, 75, 0.7);
+  transition: transform 0.08s linear;
+}
+
+/* ───────── STICKY HEADER & SCROLL BEHAVIOR ───────── */
+.site-header {
+  position: fixed !important;
+  inset: 0 0 auto !important;
+  z-index: 100 !important;
+  transition: height 0.3s cubic-bezier(0.2, 0.75, 0.24, 1), background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+.site-header.is-scrolled {
+  height: 64px !important;
+  background: oklch(0.12 0.008 26 / 88%) !important;
+  backdrop-filter: blur(14px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+  border-bottom: 1px solid oklch(0.61 0.235 28 / 25%) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+}
+@media (max-width: 700px) {
+  .site-header.is-scrolled {
+    height: 58px !important;
+  }
+}
+
+/* ───────── SCROLL SPY NAVIGATION ───────── */
+.site-nav a {
+  position: relative;
+  transition: color 0.25s ease;
+}
+.site-nav a.is-current {
+  color: var(--paper) !important;
+  font-weight: 600;
+}
+.site-nav a.is-current::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: var(--red-bright);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--red);
+}
+
+/* ───────── BACK TO TOP FLOAT BUTTON ───────── */
+.back-top-float {
+  position: fixed;
+  bottom: 24px;
+  inset-inline-start: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(20, 20, 24, 0.8) 100%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--paper);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s var(--ease), border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+.back-top-float.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+.back-top-float:hover {
+  transform: translateY(-3px) scale(1.06);
+  border-color: rgba(255, 51, 75, 0.7);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.6),
+    0 10px 28px rgba(224, 30, 55, 0.45);
+  color: var(--red-bright);
+}
+@media (max-width: 700px) {
+  .back-top-float {
+    bottom: 20px;
+    inset-inline-start: 18px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+/* ───────── FAQ ACCORDION SMOOTH REVEAL ───────── */
+.faq-list details {
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.faq-list details[open] {
+  background: oklch(0.14 0.01 25 / 50%);
+  border-radius: 4px;
+}
+.faq-list details p {
+  animation: faqFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes faqFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ───────── PRODUCT SPOTLIGHT & 3D TILT ───────── */
+.product-grid {
+  perspective: 1200px;
+}
+.product-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.product-card.is-spotlighted {
+  border-color: var(--red-bright) !important;
+  box-shadow: 0 0 35px oklch(0.61 0.235 28 / 65%), inset 0 0 15px oklch(0.61 0.235 28 / 25%) !important;
+  transform: translateY(-6px) scale(1.015) !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+}
+
 /* ───────── REDUCED MOTION ───────── */
 @media (prefers-reduced-motion: reduce) {
   .js-enabled .benefits-grid .benefit-card,
@@ -1326,4 +1472,5 @@
   .review-card::after { transition: none; }
   .grid-illuminated.flash-active, .sky-flash.flash-active, .global-bolt-svg.bolt-anim, .targeted-bolt-svg { animation: none !important; opacity: 0 !important; }
   .button-primary.is-electrified, .button-primary.is-electrified::before, .button-primary.is-electrified::after, .electric-stream, .electric-plasma-glow { animation: none !important; }
+  .scroll-progress-bar, .back-top-float, .product-card.is-spotlighted, .faq-list details p { animation: none !important; transition: none !important; }
 }

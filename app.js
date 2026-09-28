@@ -60,9 +60,28 @@ filters.forEach(function (button) {
 
 coachOptions.forEach(function (button) {
   button.addEventListener("click", function () {
-    applyFilter(button.dataset.coachFilter);
+    var targetCat = button.dataset.coachFilter;
+    applyFilter(targetCat);
     var behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
     document.getElementById("products").scrollIntoView({ behavior: behavior, block: "start" });
+
+    /* Spotlight the matching product card */
+    var matchingCard = null;
+    for (var i = 0; i < productCards.length; i++) {
+      if (productCards[i].dataset.category === targetCat) {
+        matchingCard = productCards[i];
+        break;
+      }
+    }
+    if (matchingCard && !reducedMotion) {
+      productCards.forEach(function (c) { c.classList.remove("is-spotlighted"); });
+      setTimeout(function () {
+        matchingCard.classList.add("is-spotlighted");
+        setTimeout(function () {
+          matchingCard.classList.remove("is-spotlighted");
+        }, 2200);
+      }, 450);
+    }
   });
 });
 
@@ -406,4 +425,105 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
     }, 720);
   }, 420);
 })();
+
+/* ═══════════════════════════════════════════════════════════════════
+   DESKTOP 3D CARD TILT (SUBTLE LUXURY INTERACTION)
+   ═══════════════════════════════════════════════════════════════════ */
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reducedMotion) {
+  productCards.forEach(function (card) {
+    card.addEventListener("mousemove", function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var centerX = rect.width / 2;
+      var centerY = rect.height / 2;
+      var rotateX = ((y - centerY) / centerY) * -3.5;
+      var rotateY = ((x - centerX) / centerX) * 3.5;
+      card.style.transform = "perspective(1000px) rotateX(" + rotateX.toFixed(2) + "deg) rotateY(" + rotateY.toFixed(2) + "deg) translateY(-4px)";
+    });
+    card.addEventListener("mouseleave", function () {
+      card.style.transform = "";
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCROLL DYNAMICS: READING PROGRESS, HEADER SHRINK, SCROLL SPY & BACK TO TOP
+   ═══════════════════════════════════════════════════════════════════ */
+(function initScrollDynamics() {
+  var scrollProgressBar = document.getElementById("scrollProgressBar");
+  var siteHeader = document.querySelector(".site-header");
+  var backTopFloat = document.getElementById("backTopFloat");
+  var navLinks = Array.from(document.querySelectorAll(".site-nav a"));
+  var observedSections = [
+    document.getElementById("products"),
+    document.getElementById("why"),
+    document.getElementById("reviews"),
+    document.getElementById("approach"),
+    document.getElementById("faq")
+  ].filter(Boolean);
+
+  var isScrollTicking = false;
+
+  function onScrollUpdate() {
+    var scrollY = window.scrollY || window.pageYOffset || 0;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    /* 1. Progress Bar */
+    if (scrollProgressBar && docHeight > 0) {
+      var progress = Math.min(Math.max(scrollY / docHeight, 0), 1);
+      scrollProgressBar.style.transform = "scaleX(" + progress + ")";
+    }
+
+    /* 2. Header Scrolled State */
+    if (siteHeader) {
+      siteHeader.classList.toggle("is-scrolled", scrollY > 40);
+    }
+
+    /* 3. Back to Top Button */
+    if (backTopFloat) {
+      backTopFloat.classList.toggle("is-visible", scrollY > 450);
+    }
+
+    /* 4. Scroll Spy */
+    if (navLinks.length > 0 && observedSections.length > 0) {
+      var currentSectionId = "";
+      var scrollOffset = scrollY + 160;
+
+      for (var i = observedSections.length - 1; i >= 0; i--) {
+        var section = observedSections[i];
+        if (section.offsetTop <= scrollOffset) {
+          currentSectionId = section.id;
+          break;
+        }
+      }
+
+      navLinks.forEach(function (link) {
+        var href = link.getAttribute("href");
+        var isCurrent = currentSectionId && href === "#" + currentSectionId;
+        link.classList.toggle("is-current", Boolean(isCurrent));
+      });
+    }
+
+    isScrollTicking = false;
+  }
+
+  window.addEventListener("scroll", function () {
+    if (!isScrollTicking) {
+      window.requestAnimationFrame(onScrollUpdate);
+      isScrollTicking = true;
+    }
+  }, { passive: true });
+
+  /* Back to Top Click */
+  if (backTopFloat) {
+    backTopFloat.addEventListener("click", function () {
+      var behavior = reducedMotion ? "auto" : "smooth";
+      window.scrollTo({ top: 0, behavior: behavior });
+    });
+  }
+
+  onScrollUpdate();
+})();
+
 
