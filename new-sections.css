@@ -3,10 +3,20 @@
    Premium / Awwwards-level design
    ═══════════════════════════════════════════════════════ */
 
-/* --- Animated gradient border property --- */
+/* --- Animated gradient border properties --- */
 @property --border-angle {
   syntax: '<angle>';
   initial-value: 0deg;
+  inherits: false;
+}
+@property --stream-angle-1 {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@property --stream-angle-2 {
+  syntax: '<angle>';
+  initial-value: 180deg;
   inherits: false;
 }
 
@@ -248,8 +258,8 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   ⚡ REAL CRACKLING ELECTRIC ARCS & RANDOMIZED DANCING CHARGES
-   Visible dynamic plasma arcs & sparks leaping around button perimeter
+   ⚡ NATURAL HIGH-VOLTAGE ELECTRIC CORONA STREAM
+   Realistic continuous electric charges traveling around button contour
    ═══════════════════════════════════════════════════════════════════ */
 .cta-electric-wrapper {
   position: relative;
@@ -260,198 +270,99 @@
   isolation: isolate;
 }
 
-.cta-sparks-orbit {
+.cta-electric-corona {
   position: absolute;
-  inset: -14px -18px;
+  inset: -4px;
+  border-radius: 9999px;
   pointer-events: none;
-  overflow: visible;
+  z-index: 20;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 25;
+  transition: opacity 0.5s ease;
 }
 
 /* Activate when button is electrified or wrapper is charged */
-.button-primary.is-electrified ~ .cta-sparks-orbit,
-.cta-electric-wrapper.is-charged .cta-sparks-orbit {
+.button-primary.is-electrified ~ .cta-electric-corona,
+.cta-electric-wrapper.is-charged .cta-electric-corona {
   opacity: 1;
   visibility: visible;
 }
 
-/* Spark Arcs (Miniature jagged lightning discharges hugging the button perimeter) */
-.cta-spark-svg {
+/* Electric Streams: High-voltage currents circulating smoothly around the pill */
+.electric-stream {
   position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 2.5px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
-  overflow: visible;
+  filter: drop-shadow(0 0 5px #ff2535) drop-shadow(0 0 12px oklch(0.65 0.25 28));
+  will-change: transform;
 }
 
-.spark-svg-top {
-  top: -8px;
-  left: 20px;
-  right: 20px;
-  width: calc(100% - 40px);
-  height: 22px;
+.stream-clockwise {
+  background: conic-gradient(
+    from var(--stream-angle-1, 0deg),
+    transparent 0deg,
+    transparent 260deg,
+    oklch(0.65 0.24 28 / 35%) 290deg,
+    #ff334b 325deg,
+    #ffffff 352deg,
+    #ff4d66 358deg,
+    transparent 360deg
+  );
+  animation: electric-stream-cw 2.4s linear infinite;
 }
 
-.spark-svg-bottom {
-  bottom: -8px;
-  left: 20px;
-  right: 20px;
-  width: calc(100% - 40px);
-  height: 22px;
+.stream-counter {
+  background: conic-gradient(
+    from var(--stream-angle-2, 180deg),
+    transparent 0deg,
+    transparent 270deg,
+    oklch(0.65 0.24 28 / 25%) 300deg,
+    #ff2a4b 332deg,
+    #ffffff 354deg,
+    #ff5570 359deg,
+    transparent 360deg
+  );
+  animation: electric-stream-ccw 3.1s linear infinite;
 }
 
-.spark-svg-left {
-  left: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 26px;
-  height: 48px;
+@keyframes electric-stream-cw {
+  to { --stream-angle-1: 360deg; }
 }
 
-.spark-svg-right {
-  right: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 26px;
-  height: 48px;
+@keyframes electric-stream-ccw {
+  to { --stream-angle-2: -180deg; }
 }
 
-.spark-line-arc {
-  stroke: #ffffff;
-  stroke-width: 2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-  filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 8px #ff2a3a) drop-shadow(0 0 16px oklch(0.65 0.25 28));
-  will-change: transform, opacity;
-}
-
-.arc-top {
-  animation: spark-jitter-top 0.22s steps(2, start) infinite alternate;
-}
-
-.arc-bottom {
-  animation: spark-jitter-bottom 0.26s steps(2, start) infinite alternate;
-}
-
-.arc-left {
-  animation: spark-jitter-side 0.19s steps(2, start) infinite alternate;
-}
-
-.arc-right {
-  animation: spark-jitter-side 0.24s steps(2, start) infinite alternate-reverse;
-}
-
-@keyframes spark-jitter-top {
-  0% { transform: translate(0, 0) scaleY(1); opacity: 0.95; }
-  33% { transform: translate(-3px, -2px) scaleY(1.3); opacity: 0.25; }
-  66% { transform: translate(4px, 1px) scaleY(0.7); opacity: 1; }
-  100% { transform: translate(-2px, 2px) scaleY(1.2); opacity: 0.85; }
-}
-
-@keyframes spark-jitter-bottom {
-  0% { transform: translate(0, 0) scaleY(1); opacity: 0.85; }
-  33% { transform: translate(3px, 2px) scaleY(1.3); opacity: 1; }
-  66% { transform: translate(-4px, -1px) scaleY(0.65); opacity: 0.2; }
-  100% { transform: translate(2px, -2px) scaleY(1.15); opacity: 0.95; }
-}
-
-@keyframes spark-jitter-side {
-  0% { transform: translateY(-50%) translate(0, 0) scaleX(1); opacity: 0.95; }
-  50% { transform: translateY(-50%) translate(-2px, 3px) scaleX(1.4); opacity: 0.25; }
-  100% { transform: translateY(-50%) translate(2px, -2px) scaleX(0.85); opacity: 1; }
-}
-
-/* Dancing Spark Dots (Orbiting and randomly popping electric charges) */
-.electric-charge-dot {
+/* Ambient Electric Plasma Glow (Hugging the button edge) */
+.electric-plasma-glow {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 6px #ffffff, 0 0 12px #ff2535, 0 0 22px #ff1a30;
+  inset: -2px;
+  border-radius: 9999px;
+  box-shadow:
+    0 0 16px rgba(255, 45, 65, 0.7),
+    0 0 32px oklch(0.65 0.25 28 / 55%),
+    inset 0 0 10px rgba(255, 255, 255, 0.35);
+  opacity: 0.85;
+  animation: electric-plasma-breathe 2.6s ease-in-out infinite alternate;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
-.dot-1 {
-  top: -3px;
-  left: 25%;
-  animation: charge-dance-1 1.7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+@keyframes electric-plasma-breathe {
+  0% {
+    opacity: 0.75;
+    box-shadow: 0 0 14px rgba(255, 45, 65, 0.6), 0 0 28px oklch(0.65 0.25 28 / 45%), inset 0 0 8px rgba(255, 255, 255, 0.25);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 22px rgba(255, 55, 75, 0.9), 0 0 42px oklch(0.68 0.25 28 / 75%), inset 0 0 14px rgba(255, 255, 255, 0.5);
+  }
 }
 
-.dot-2 {
-  top: -2px;
-  right: 28%;
-  animation: charge-dance-2 1.3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-}
-
-.dot-3 {
-  bottom: -3px;
-  left: 35%;
-  animation: charge-dance-3 1.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-}
-
-.dot-4 {
-  bottom: -2px;
-  right: 22%;
-  animation: charge-dance-4 1.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
-}
-
-.dot-5 {
-  top: 50%;
-  left: -4px;
-  animation: charge-pop-left 0.85s steps(3, start) infinite;
-}
-
-.dot-6 {
-  top: 50%;
-  right: -4px;
-  animation: charge-pop-right 0.95s steps(3, start) infinite;
-}
-
-@keyframes charge-dance-1 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
-  35% { transform: translate(25px, -3px) scale(1.4); opacity: 1; }
-  70% { transform: translate(45px, 2px) scale(0.7); opacity: 0.3; }
-  100% { transform: translate(70px, -2px) scale(1.2); opacity: 0.85; }
-}
-
-@keyframes charge-dance-2 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.85; }
-  40% { transform: translate(-22px, 3px) scale(1.3); opacity: 0.3; }
-  80% { transform: translate(-48px, -2px) scale(1.5); opacity: 1; }
-  100% { transform: translate(-65px, 2px) scale(0.8); opacity: 0.9; }
-}
-
-@keyframes charge-dance-3 {
-  0% { transform: translate(0, 0) scale(1.1); opacity: 0.95; }
-  30% { transform: translate(-30px, 3px) scale(0.6); opacity: 0.25; }
-  65% { transform: translate(-60px, -2px) scale(1.5); opacity: 1; }
-  100% { transform: translate(-90px, 2px) scale(0.9); opacity: 0.8; }
-}
-
-@keyframes charge-dance-4 {
-  0% { transform: translate(0, 0) scale(0.9); opacity: 0.8; }
-  35% { transform: translate(20px, -3px) scale(1.4); opacity: 1; }
-  75% { transform: translate(45px, 3px) scale(0.7); opacity: 0.2; }
-  100% { transform: translate(65px, -1px) scale(1.2); opacity: 0.95; }
-}
-
-@keyframes charge-pop-left {
-  0% { transform: translateY(-50%) translate(0, -12px) scale(0.8); opacity: 0.2; }
-  40% { transform: translateY(-50%) translate(-3px, 0px) scale(1.6); opacity: 1; }
-  80% { transform: translateY(-50%) translate(2px, 14px) scale(0.7); opacity: 0.3; }
-  100% { transform: translateY(-50%) translate(0, -12px) scale(0.8); opacity: 0.2; }
-}
-
-@keyframes charge-pop-right {
-  0% { transform: translateY(-50%) translate(0, 14px) scale(0.7); opacity: 0.3; }
-  45% { transform: translateY(-50%) translate(3px, 0px) scale(1.5); opacity: 1; }
-  85% { transform: translateY(-50%) translate(-2px, -12px) scale(0.9); opacity: 0.25; }
-  100% { transform: translateY(-50%) translate(0, 14px) scale(0.7); opacity: 0.3; }
-}
 
 
 /* ───────── GLOBAL REACTIVE BACKGROUND GRID ───────── */
@@ -1414,5 +1325,5 @@
   .closing-actions .button-light { animation: none; }
   .review-card::after { transition: none; }
   .grid-illuminated.flash-active, .sky-flash.flash-active, .global-bolt-svg.bolt-anim, .targeted-bolt-svg { animation: none !important; opacity: 0 !important; }
-  .button-primary.is-electrified, .button-primary.is-electrified::before, .button-primary.is-electrified::after { animation: none !important; }
+  .button-primary.is-electrified, .button-primary.is-electrified::before, .button-primary.is-electrified::after, .electric-stream, .electric-plasma-glow { animation: none !important; }
 }

@@ -210,31 +210,25 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
     var viewH = window.innerHeight;
     var ctaRect = heroPrimaryCta.getBoundingClientRect();
 
-    /* Target center of CTA button */
+    /* Target the top edge of the CTA button where thunder naturally strikes */
     var targetX = Math.round(ctaRect.left + ctaRect.width / 2);
-    var targetY = Math.round(ctaRect.top + ctaRect.height / 2);
+    var targetY = Math.round(ctaRect.top + 4);
 
-    /* Left bolt starts from top-left, right bolt from top-right */
-    var leftStartX = Math.round(viewW * 0.08);
-    var leftStartY = Math.round(Math.random() * -15);
-    var rightStartX = Math.round(viewW * 0.92);
-    var rightStartY = Math.round(Math.random() * -15);
+    /* Origin: directly above in the sky with a natural slight atmospheric slant */
+    var startX = Math.round(targetX + (Math.random() - 0.5) * 80);
+    var startY = Math.round(Math.random() * -20);
 
-    var leftPoints = getBoltPoints(leftStartX, leftStartY, targetX, targetY, 95, 3);
-    var rightPoints = getBoltPoints(rightStartX, rightStartY, targetX, targetY, 95, 3);
+    /* Powerful jagged thunderbolt striking down directly into the button */
+    var mainPoints = getBoltPoints(startX, startY, targetX, targetY, 75, 4);
+    var mainPathD = pointsToPath(mainPoints);
 
-    var leftPathD = pointsToPath(leftPoints);
-    var rightPathD = pointsToPath(rightPoints);
-
-    /* Generate minor branches for extra realism */
+    /* Natural branch fork in the upper sky */
     var branchPathsD = [];
-    [leftPoints, rightPoints].forEach(function (bolt) {
-      if (bolt.length > 4) {
-        var split = bolt[Math.floor(bolt.length * 0.45)];
-        var bPoints = getBoltPoints(split.x, split.y, split.x + (Math.random() - 0.5) * 80, split.y + 70, 30, 2);
-        branchPathsD.push(pointsToPath(bPoints));
-      }
-    });
+    if (mainPoints.length > 5) {
+      var split = mainPoints[Math.floor(mainPoints.length * 0.4)];
+      var bFork = getBoltPoints(split.x, split.y, split.x + (Math.random() > 0.5 ? 55 : -55), split.y + 65, 28, 2);
+      branchPathsD.push(pointsToPath(bFork));
+    }
 
     /* Illumination & sky flash */
     globalGrid.style.setProperty("--strike-x", targetX + "px");
@@ -258,29 +252,19 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
     svg.setAttribute("viewBox", "0 0 " + viewW + " " + viewH);
     svg.setAttribute("preserveAspectRatio", "none");
 
-    /* Left bolt glow + core */
-    var lGlow = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    lGlow.setAttribute("class", "targeted-bolt-glow");
-    lGlow.setAttribute("d", leftPathD);
-    svg.appendChild(lGlow);
+    /* Bolt Glow */
+    var glow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    glow.setAttribute("class", "targeted-bolt-glow");
+    glow.setAttribute("d", mainPathD);
+    svg.appendChild(glow);
 
-    var lCore = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    lCore.setAttribute("class", "targeted-bolt-core");
-    lCore.setAttribute("d", leftPathD);
-    svg.appendChild(lCore);
+    /* Bolt Core */
+    var core = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    core.setAttribute("class", "targeted-bolt-core");
+    core.setAttribute("d", mainPathD);
+    svg.appendChild(core);
 
-    /* Right bolt glow + core */
-    var rGlow = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    rGlow.setAttribute("class", "targeted-bolt-glow");
-    rGlow.setAttribute("d", rightPathD);
-    svg.appendChild(rGlow);
-
-    var rCore = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    rCore.setAttribute("class", "targeted-bolt-core");
-    rCore.setAttribute("d", rightPathD);
-    svg.appendChild(rCore);
-
-    /* Branches */
+    /* Upper Sky Branch Fork */
     branchPathsD.forEach(function (bD) {
       var bP = document.createElementNS("http://www.w3.org/2000/svg", "path");
       bP.setAttribute("class", "targeted-bolt-branch");
