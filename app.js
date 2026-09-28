@@ -145,8 +145,11 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   GLOBAL DYNAMIC LIGHTNING & REACTIVE GRID SYSTEM
-   Procedural strikes at random viewport locations & reactive grid glow
+   GLOBAL DYNAMIC LIGHTNING & ELECTRIFIED CTA SYSTEM
+   1. Welcome Dual-Strike: Left & Right lightning bolts converge onto Hero CTA,
+      igniting and permanently electrifying the button.
+   2. Scroll-Stop Trigger: Fires atmospheric thunderbolts when user pauses scrolling.
+   3. Ambient Periodic Strikes: High-voltage atmospheric pulses during idle reading.
    ═══════════════════════════════════════════════════════════════════ */
 (function initGlobalLightningSystem() {
   if (reducedMotion) return;
@@ -155,18 +158,14 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
   var globalGrid = document.getElementById("globalGrid");
   var gridIlluminated = document.getElementById("gridIlluminated");
   var skyFlash = document.getElementById("skyFlash");
-  var heroCarvedRa3d = document.getElementById("heroCarvedRa3d");
+  var heroPrimaryCta = document.getElementById("heroPrimaryCta");
 
   if (!stage || !globalGrid) return;
 
-  /* Click on carved inscription calls down an immediate lightning strike */
-  if (heroCarvedRa3d) {
-    heroCarvedRa3d.addEventListener("click", function () {
-      triggerLightningStrike();
-    });
-  }
+  var lastStrikeTime = 0;
+  var MIN_STRIKE_COOLDOWN = 4500; /* Minimum 4.5s cooldown between automatic strikes */
 
-  /* Midpoint displacement generator for jagged natural lightning */
+  /* Midpoint displacement generator for jagged natural lightning (3-4 iterations = optimal 60/120fps) */
   function getBoltPoints(x1, y1, x2, y2, displacement, iterations) {
     var points = [{ x: x1, y: y1 }, { x: x2, y: y2 }];
     for (var i = 0; i < iterations; i++) {
@@ -199,72 +198,157 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
     return d;
   }
 
-  function triggerLightningStrike() {
+  /* ─── 1. Welcome Dual-Strike Targeting Hero CTA ─── */
+  function triggerCtaActivationStrike() {
+    if (document.hidden) return;
+    if (!heroPrimaryCta) {
+      triggerAtmosphericStrike();
+      return;
+    }
+
+    var viewW = window.innerWidth;
+    var viewH = window.innerHeight;
+    var ctaRect = heroPrimaryCta.getBoundingClientRect();
+
+    /* Target center of CTA button */
+    var targetX = Math.round(ctaRect.left + ctaRect.width / 2);
+    var targetY = Math.round(ctaRect.top + ctaRect.height / 2);
+
+    /* Left bolt starts from top-left, right bolt from top-right */
+    var leftStartX = Math.round(viewW * 0.08);
+    var leftStartY = Math.round(Math.random() * -15);
+    var rightStartX = Math.round(viewW * 0.92);
+    var rightStartY = Math.round(Math.random() * -15);
+
+    var leftPoints = getBoltPoints(leftStartX, leftStartY, targetX, targetY, 95, 3);
+    var rightPoints = getBoltPoints(rightStartX, rightStartY, targetX, targetY, 95, 3);
+
+    var leftPathD = pointsToPath(leftPoints);
+    var rightPathD = pointsToPath(rightPoints);
+
+    /* Generate minor branches for extra realism */
+    var branchPathsD = [];
+    [leftPoints, rightPoints].forEach(function (bolt) {
+      if (bolt.length > 4) {
+        var split = bolt[Math.floor(bolt.length * 0.45)];
+        var bPoints = getBoltPoints(split.x, split.y, split.x + (Math.random() - 0.5) * 80, split.y + 70, 30, 2);
+        branchPathsD.push(pointsToPath(bPoints));
+      }
+    });
+
+    /* Illumination & sky flash */
+    globalGrid.style.setProperty("--strike-x", targetX + "px");
+    globalGrid.style.setProperty("--strike-y", targetY + "px");
+
+    if (gridIlluminated) gridIlluminated.classList.remove("flash-active");
+    if (skyFlash) skyFlash.classList.remove("flash-active");
+
+    requestAnimationFrame(function () {
+      if (gridIlluminated) gridIlluminated.classList.add("flash-active");
+      if (skyFlash) skyFlash.classList.add("flash-active");
+      heroPrimaryCta.classList.add("is-impact-flashing");
+      heroPrimaryCta.classList.add("is-electrified");
+    });
+
+    /* Build SVG container */
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "targeted-bolt-svg bolt-anim");
+    svg.setAttribute("viewBox", "0 0 " + viewW + " " + viewH);
+    svg.setAttribute("preserveAspectRatio", "none");
+
+    /* Left bolt glow + core */
+    var lGlow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    lGlow.setAttribute("class", "targeted-bolt-glow");
+    lGlow.setAttribute("d", leftPathD);
+    svg.appendChild(lGlow);
+
+    var lCore = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    lCore.setAttribute("class", "targeted-bolt-core");
+    lCore.setAttribute("d", leftPathD);
+    svg.appendChild(lCore);
+
+    /* Right bolt glow + core */
+    var rGlow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    rGlow.setAttribute("class", "targeted-bolt-glow");
+    rGlow.setAttribute("d", rightPathD);
+    svg.appendChild(rGlow);
+
+    var rCore = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    rCore.setAttribute("class", "targeted-bolt-core");
+    rCore.setAttribute("d", rightPathD);
+    svg.appendChild(rCore);
+
+    /* Branches */
+    branchPathsD.forEach(function (bD) {
+      var bP = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      bP.setAttribute("class", "targeted-bolt-branch");
+      bP.setAttribute("d", bD);
+      svg.appendChild(bP);
+    });
+
+    stage.appendChild(svg);
+
+    /* Clean up bolt SVG and reset impact flash (keeps .is-electrified active!) */
+    setTimeout(function () {
+      if (svg && svg.parentNode) svg.parentNode.removeChild(svg);
+      if (gridIlluminated) gridIlluminated.classList.remove("flash-active");
+      if (skyFlash) skyFlash.classList.remove("flash-active");
+      heroPrimaryCta.classList.remove("is-impact-flashing");
+    }, 620);
+  }
+
+  /* ─── 2. Atmospheric Background Strike ─── */
+  function triggerAtmosphericStrike(customTargetX, customTargetY) {
     if (document.hidden) return;
 
     var viewW = window.innerWidth;
     var viewH = window.innerHeight;
 
-    /* Random origin anywhere across the top viewport */
-    var startX = Math.round(viewW * (0.12 + Math.random() * 0.76));
-    var startY = Math.round(Math.random() * -30);
-    var endY = Math.round(viewH * (0.65 + Math.random() * 0.4));
-    var driftX = (Math.random() - 0.5) * 320;
-    var endX = Math.max(20, Math.min(viewW - 20, startX + driftX));
+    var startX = Math.round(viewW * (0.15 + Math.random() * 0.7));
+    var startY = Math.round(Math.random() * -20);
+    var endY = typeof customTargetY === "number" ? customTargetY : Math.round(viewH * (0.6 + Math.random() * 0.35));
+    var driftX = (Math.random() - 0.5) * 280;
+    var endX = typeof customTargetX === "number" ? customTargetX : Math.max(25, Math.min(viewW - 25, startX + driftX));
 
-    /* Generate main bolt path (optimized to 4 iterations for 60/120fps smoothness) */
-    var mainPoints = getBoltPoints(startX, startY, endX, endY, 130, 4);
+    var mainPoints = getBoltPoints(startX, startY, endX, endY, 110, 3);
     var mainPathD = pointsToPath(mainPoints);
 
-    /* Generate 2 random branches */
+    /* Minor branch */
     var branchPathsD = [];
-    var branchCount = 2;
-    for (var b = 0; b < branchCount; b++) {
-      var splitIdx = Math.floor(mainPoints.length * (0.28 + b * 0.35));
-      if (mainPoints[splitIdx]) {
-        var origin = mainPoints[splitIdx];
-        var angle = (b % 2 === 0 ? 1 : -1) * (0.45 + Math.random() * 0.55);
-        var branchLen = 70 + Math.random() * 110;
-        var bEndX = origin.x + Math.sin(angle) * branchLen;
-        var bEndY = origin.y + Math.cos(angle) * branchLen;
-        var bPoints = getBoltPoints(origin.x, origin.y, bEndX, bEndY, 40, 2);
-        branchPathsD.push(pointsToPath(bPoints));
-      }
+    if (mainPoints.length > 5) {
+      var splitIdx = Math.floor(mainPoints.length * 0.42);
+      var origin = mainPoints[splitIdx];
+      var branchAngle = Math.random() > 0.5 ? 0.6 : -0.6;
+      var bPoints = getBoltPoints(origin.x, origin.y, origin.x + Math.sin(branchAngle) * 85, origin.y + Math.cos(branchAngle) * 95, 35, 2);
+      branchPathsD.push(pointsToPath(bPoints));
     }
 
-    /* 1. Update Reactive Grid position & trigger illumination flash without forced reflow */
     globalGrid.style.setProperty("--strike-x", startX + "px");
     globalGrid.style.setProperty("--strike-y", Math.max(60, Math.min(viewH * 0.45, startY + 120)) + "px");
 
     if (gridIlluminated) gridIlluminated.classList.remove("flash-active");
     if (skyFlash) skyFlash.classList.remove("flash-active");
-    if (heroCarvedRa3d) heroCarvedRa3d.classList.remove("flash-active");
 
     requestAnimationFrame(function () {
       if (gridIlluminated) gridIlluminated.classList.add("flash-active");
       if (skyFlash) skyFlash.classList.add("flash-active");
-      if (heroCarvedRa3d) heroCarvedRa3d.classList.add("flash-active");
     });
 
-    /* 2. Build Bolt SVG (reusing static #globalLightningBloom filter) */
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "global-bolt-svg bolt-anim");
     svg.setAttribute("viewBox", "0 0 " + viewW + " " + viewH);
     svg.setAttribute("preserveAspectRatio", "none");
 
-    /* Glow path */
     var glowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     glowPath.setAttribute("class", "global-bolt-glow");
     glowPath.setAttribute("d", mainPathD);
     svg.appendChild(glowPath);
 
-    /* Core path */
     var corePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     corePath.setAttribute("class", "global-bolt-core");
     corePath.setAttribute("d", mainPathD);
     svg.appendChild(corePath);
 
-    /* Branch paths */
     branchPathsD.forEach(function (bD) {
       var bP = document.createElementNS("http://www.w3.org/2000/svg", "path");
       bP.setAttribute("class", "global-bolt-branch");
@@ -274,41 +358,51 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
 
     stage.appendChild(svg);
 
-    /* 3. Remove bolt SVG and reset illumination after animation */
     setTimeout(function () {
-      if (svg && svg.parentNode) {
-        svg.parentNode.removeChild(svg);
-      }
+      if (svg && svg.parentNode) svg.parentNode.removeChild(svg);
       if (gridIlluminated) gridIlluminated.classList.remove("flash-active");
       if (skyFlash) skyFlash.classList.remove("flash-active");
-      if (heroCarvedRa3d) heroCarvedRa3d.classList.remove("flash-active");
     }, 620);
   }
 
-  /* Schedule recurring random strikes (pauses automatically in background tabs) */
-  function scheduleNextStrike() {
-    var minDelay = 4800;
-    var maxDelay = 9500;
+  /* ─── 3. Scroll-Stop Lightning Trigger ─── */
+  /* Detects when user scrolls and pauses to read, then fires lightning */
+  var scrollStopTimer = null;
+  window.addEventListener("scroll", function () {
+    clearTimeout(scrollStopTimer);
+    scrollStopTimer = setTimeout(function () {
+      if (document.hidden) return;
+      var now = Date.now();
+      if (now - lastStrikeTime < MIN_STRIKE_COOLDOWN) return;
+
+      lastStrikeTime = now;
+      triggerAtmosphericStrike();
+    }, 550);
+  }, { passive: true });
+
+  /* ─── 4. Periodic Ambient Strikes (Idle reading) ─── */
+  function scheduleAmbientStrike() {
+    var minDelay = 9000;
+    var maxDelay = 15000;
     var delay = minDelay + Math.random() * (maxDelay - minDelay);
 
     setTimeout(function () {
       if (!document.hidden) {
-        triggerLightningStrike();
-
-        /* 20% chance of an echo / secondary thunder shock 350-600ms later */
-        if (Math.random() < 0.2) {
-          setTimeout(function () {
-            if (!document.hidden) triggerLightningStrike();
-          }, 360 + Math.random() * 240);
+        var now = Date.now();
+        if (now - lastStrikeTime >= MIN_STRIKE_COOLDOWN) {
+          lastStrikeTime = now;
+          triggerAtmosphericStrike();
         }
       }
-
-      scheduleNextStrike();
+      scheduleAmbientStrike();
     }, delay);
   }
 
-  /* First ambient strike shortly after load */
-  setTimeout(triggerLightningStrike, 1800);
-  scheduleNextStrike();
+  /* ─── 5. Initial Welcome Strike Sequence ─── */
+  setTimeout(function () {
+    lastStrikeTime = Date.now();
+    triggerCtaActivationStrike();
+    scheduleAmbientStrike();
+  }, 850);
 })();
 
