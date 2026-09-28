@@ -1,0 +1,1253 @@
+/* ═══════════════════════════════════════════════════════
+   RA3D Nutrition — New Sections Styles
+   Premium / Awwwards-level design
+   ═══════════════════════════════════════════════════════ */
+
+/* --- Animated gradient border property --- */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   🎯 لوحة التحكم في حجم ومكان الماسكوت (كابتن رعد)
+   عدّل القيم دي هنا وهيتم التطبيق فوراً بدون ما يبوظ أبعاد الصورة:
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  /* 🔍 1. الحجم: الطول والعرض بيكبروا ويصغروا سوا بنسبة 100% متوازية */
+  --mascot-size: 1.2;         /* 1 = عادي | 1.2 = أكبر 20% | 1.35 = أكبر 35% | 0.9 = أصغر */
+
+  /* ↔️ 2. يمين وشمال (أفقي) */
+  --mascot-x: 0px;            /* رقم موجب (مثل 40px) يوديه يمين | رقم سالب (مثل -40px) يوديه شمال */
+  --mascot-left: clamp(10px, 4.5vw, 90px); /* مسافة البداية من حافة الشمال */
+
+  /* ↕️ 3. فوق وتحت (عمودي) */
+  --mascot-y: 0px;            /* رقم موجب (مثل 30px) يطلعه لفوق | رقم سالب (مثل -30px) ينزله لتحت */
+  --mascot-bottom: 0px;       /* مسافة البداية من خط الأرضية */
+
+  /* 📏 4. الارتفاع الأساسي */
+  --mascot-height: clamp(660px, 96svh, 890px);
+
+  /* ⚡ 5. لوحة التحكم في اسم "رعد" المحفور بضربة الصاعق (يتوسط الماسكوت والكلام) */
+  --carved-ra3d-size: 1;                 /* حجم الاسم (1 = طبيعي | 1.15 = أكبر 15% | 0.85 = أصغر) */
+  --carved-ra3d-left: 44%;               /* المكان الأفقي (44% يضعه بالملي في المنتصف بين الماسكوت والكلام) */
+  --carved-ra3d-top: 48%;                /* الارتفاع الرأسي في السكشن */
+  --carved-ra3d-x: 0px;                  /* إزاحة أفقية مخصصة: رقم موجب يمين | سالب شمال */
+  --carved-ra3d-y: 0px;                  /* إزاحة رأسية مخصصة: رقم موجب تحت | سالب فوق */
+}
+
+/* تطبيق لوحة التحكم مع قفل النسبة بين الطول والعرض (Aspect Ratio Locked) */
+.hero-mascot {
+  position: absolute !important;
+  z-index: 1 !important;
+  left: var(--mascot-left) !important;
+  bottom: var(--mascot-bottom) !important;
+  height: var(--mascot-height) !important;
+  width: auto !important;
+  aspect-ratio: 452 / 890 !important;
+  max-width: 55vw !important;
+  object-fit: contain !important;
+  object-position: bottom center !important;
+  transform-origin: bottom center !important;
+  transform: translate3d(var(--mascot-x), calc(var(--mascot-y) * -1), 0) scale(var(--mascot-size)) !important;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.75)) !important;
+  pointer-events: none !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* تحكم الموبايل */
+@media (max-width: 700px) {
+  :root {
+    --mascot-size-mobile: 1.05;
+    --mascot-x-mobile: 0px;
+    --mascot-y-mobile: 0px;
+
+    --carved-ra3d-size-mobile: 0.75;
+    --carved-ra3d-left-mobile: 50%;
+    --carved-ra3d-top-mobile: 24%;
+    --carved-ra3d-x-mobile: 0px;
+    --carved-ra3d-y-mobile: 0px;
+  }
+  .hero-mascot {
+    left: 50% !important;
+    max-width: 95vw !important;
+    height: 56svh !important;
+    max-height: 520px !important;
+    transform: translateX(-50%) translate3d(var(--mascot-x-mobile), calc(var(--mascot-y-mobile) * -1), 0) scale(var(--mascot-size-mobile)) !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ⚡ HERO CARVED "رعد" IN STONE SYSTEM (اسم رعد المحفور بالصاعق في الجدار)
+   Sunken stone relief, scorched impact crater, high-voltage fissure veins,
+   and synchronized lightning ignition on thunder strikes.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.hero-carved-brand {
+  position: absolute;
+  z-index: 1;
+  left: var(--carved-ra3d-left);
+  top: var(--carved-ra3d-top);
+  transform: translate(-50%, -50%) translate3d(var(--carved-ra3d-x), var(--carved-ra3d-y), 0) scale(var(--carved-ra3d-size));
+  transform-origin: center center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto; /* يمكن النقر عليه لاستدعاء الصاعقة */
+  cursor: pointer;
+  user-select: none;
+  contain: layout;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 700px) {
+  .hero-carved-brand {
+    left: var(--carved-ra3d-left-mobile);
+    top: var(--carved-ra3d-top-mobile);
+    transform: translate(-50%, -50%) translate3d(var(--carved-ra3d-x-mobile), var(--carved-ra3d-y-mobile), 0) scale(var(--carved-ra3d-size-mobile));
+    opacity: 0.85;
+  }
+}
+
+/* 1. أثر الصدمة والحرق الصخري (Scorched Blast Crater) */
+.carved-crater {
+  position: absolute;
+  width: 520px;
+  height: 310px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse 65% 55% at 50% 50%, rgba(0, 0, 0, 0.9) 0%, oklch(0.2 0.05 28 / 35%) 38%, oklch(0.1 0.01 26 / 8%) 65%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-carved-brand.flash-active .carved-crater {
+  animation: crater-shock 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+
+@keyframes crater-shock {
+  0% { opacity: 0.5; }
+  8% {
+    opacity: 1;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, oklch(0.61 0.235 28 / 45%) 0%, oklch(0.48 0.16 28 / 25%) 40%, transparent 72%);
+  }
+  22% { opacity: 0.3; }
+  34% {
+    opacity: 0.95;
+    background:
+      radial-gradient(ellipse 75% 65% at 50% 50%, oklch(0.65 0.24 28 / 50%) 0%, oklch(0.5 0.18 28 / 30%) 42%, transparent 75%);
+  }
+  55% { opacity: 0.4; }
+  100% { opacity: 0.5; }
+}
+
+/* 2. تشققات الصاعقة المتفرعة في الجدار (Fracture Fissure Veins) */
+.carved-fissures {
+  position: absolute;
+  width: 500px;
+  height: 270px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.fissure-crack {
+  stroke: oklch(0.5 0.12 28 / 22%);
+  stroke-width: 1.4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition: stroke 0.3s ease;
+}
+
+.hero-carved-brand.flash-active .fissure-crack {
+  animation: fissure-strike-pulse 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+
+@keyframes fissure-strike-pulse {
+  0% { stroke: oklch(0.5 0.12 28 / 22%); filter: none; }
+  8% {
+    stroke: #ffffff;
+    stroke-width: 2.2px;
+    filter: drop-shadow(0 0 6px oklch(0.72 0.24 28)) drop-shadow(0 0 12px oklch(0.61 0.235 28));
+  }
+  20% { stroke: oklch(0.65 0.2 28 / 40%); stroke-width: 1.4px; filter: none; }
+  34% {
+    stroke: #ffffff;
+    stroke-width: 2px;
+    filter: drop-shadow(0 0 8px oklch(0.72 0.24 28));
+  }
+  58% { stroke: oklch(0.58 0.18 28 / 50%); stroke-width: 1.4px; }
+  100% { stroke: oklch(0.5 0.12 28 / 22%); filter: none; }
+}
+
+/* 3. حاوية الكلمة المنحوتة (The Carved Word Assembly) */
+.carved-word-wrap {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+  text-align: center;
+}
+
+/* الطبقة 1: الحفر الصخري الغائر (Sunken Stone Trench) */
+.carved-letter-groove {
+  display: block;
+  font: 900 clamp(72px, 8.8vw, 140px)/0.9 var(--display);
+  color: #08080a;
+  letter-spacing: 0.02em;
+  /* نحت الحجر ثلاثي الأبعاد: حفر غائر عميق وشطفة إضاءة سفلية حادة */
+  text-shadow:
+    0 -3px 3px rgba(0, 0, 0, 0.98),
+    0 -6px 14px rgba(0, 0, 0, 0.95),
+    0 2px 2px rgba(255, 255, 255, 0.15),
+    -1px 0 2px rgba(0, 0, 0, 0.9),
+    1px 0 1px rgba(255, 255, 255, 0.08);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.95));
+  user-select: none;
+}
+
+/* الطبقة 2: قلب الصاعقة المنصهر (Molten Lightning Plasma Core) */
+.carved-letter-core {
+  position: absolute;
+  inset: 0;
+  display: block;
+  font: 900 clamp(72px, 8.8vw, 140px)/0.9 var(--display);
+  letter-spacing: 0.02em;
+  color: oklch(0.61 0.235 28);
+  opacity: 0.18;
+  text-shadow: 0 0 18px oklch(0.61 0.235 28 / 45%);
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+}
+
+/* وميض الصاعق عند ضرب البرق (Synchronized Thunderbolt Surge) */
+.hero-carved-brand.flash-active .carved-letter-core {
+  animation: carved-lightning-surge 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+
+@keyframes carved-lightning-surge {
+  0% {
+    opacity: 0.18;
+    color: oklch(0.61 0.235 28);
+    text-shadow: 0 0 18px oklch(0.61 0.235 28 / 45%);
+  }
+  8% {
+    opacity: 1;
+    color: #ffffff;
+    text-shadow:
+      0 0 12px #ffffff,
+      0 0 28px oklch(0.72 0.24 28),
+      0 0 60px oklch(0.68 0.23 28),
+      0 0 100px oklch(0.61 0.235 28),
+      0 0 160px oklch(0.65 0.24 28 / 85%);
+    filter: drop-shadow(0 0 35px oklch(0.69 0.22 28));
+  }
+  22% {
+    opacity: 0.35;
+    color: oklch(0.85 0.12 30);
+    text-shadow: 0 0 25px oklch(0.61 0.235 28 / 65%);
+  }
+  34% {
+    opacity: 0.98;
+    color: #ffffff;
+    text-shadow:
+      0 0 16px #ffffff,
+      0 0 36px oklch(0.75 0.22 28),
+      0 0 75px oklch(0.68 0.23 28),
+      0 0 130px oklch(0.61 0.235 28);
+    filter: drop-shadow(0 0 50px oklch(0.69 0.22 28));
+  }
+  58% {
+    opacity: 0.48;
+    color: oklch(0.7 0.2 28);
+    text-shadow: 0 0 30px oklch(0.61 0.235 28 / 75%);
+  }
+  100% {
+    opacity: 0.18;
+    color: oklch(0.61 0.235 28);
+    text-shadow: 0 0 18px oklch(0.61 0.235 28 / 45%);
+  }
+}
+
+/* 4. وسم الحفر السفلي (Architectural Subtitle Tag) */
+.carved-sub {
+  position: relative;
+  z-index: 2;
+  margin-top: 6px;
+  font: 700 9px/1 var(--body);
+  letter-spacing: 0.22em;
+  color: oklch(0.55 0.015 35 / 75%);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.hero-carved-brand.flash-active .carved-sub {
+  color: oklch(0.88 0.14 30);
+  text-shadow: 0 0 12px oklch(0.69 0.22 28 / 85%);
+}
+
+.hero-carved-brand:hover {
+  transform: translate(-50%, -50%) translate3d(var(--carved-ra3d-x), var(--carved-ra3d-y), 0) scale(calc(var(--carved-ra3d-size) * 1.03));
+}
+.hero-carved-brand:hover .carved-letter-core {
+  opacity: 0.45;
+  text-shadow: 0 0 25px oklch(0.61 0.235 28 / 70%);
+}
+
+/* ───────── GLOBAL REACTIVE BACKGROUND GRID ───────── */
+.global-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  will-change: transform;
+  /* CSS strike coordinates (dynamically updated by JS) */
+  --strike-x: 50%;
+  --strike-y: 20%;
+}
+/* Base Grid: Horizontal and vertical black architectural lines */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-size: 68px 68px;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.85) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 1.5px, transparent 1.5px);
+  box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.8);
+  opacity: 0.95;
+}
+/* Illuminated Grid: Lights up only when lightning strikes (hidden when idle to eliminate GPU mask calculations) */
+.grid-illuminated {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background-size: 68px 68px;
+  background-image:
+    linear-gradient(to right, oklch(0.68 0.23 28 / 85%) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, oklch(0.68 0.23 28 / 85%) 1.5px, transparent 1.5px);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: opacity;
+  transform: translateZ(0);
+  /* Radial mask so the illumination is strongest at the strike epicenter */
+  mask-image: radial-gradient(circle 950px at var(--strike-x) var(--strike-y), black 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 950px at var(--strike-x) var(--strike-y), black 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
+}
+.grid-illuminated.flash-active {
+  display: block;
+  animation: grid-strike-flash 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+@keyframes grid-strike-flash {
+  0% { opacity: 0; }
+  8% { opacity: 1; filter: drop-shadow(0 0 8px oklch(0.68 0.23 28)); }
+  22% { opacity: 0.2; }
+  34% { opacity: 0.92; filter: drop-shadow(0 0 12px oklch(0.72 0.22 28)); }
+  55% { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+/* Atmospheric sky flash surrounding the strike (hidden when idle) */
+.sky-flash {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 1100px at var(--strike-x) var(--strike-y), oklch(0.61 0.235 28 / 26%), oklch(0.55 0.18 28 / 10%) 50%, transparent 80%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+.sky-flash.flash-active {
+  display: block;
+  animation: sky-strike-flash 0.58s ease-out forwards;
+}
+@keyframes sky-strike-flash {
+  0% { opacity: 0; }
+  10% { opacity: 0.88; }
+  24% { opacity: 0.12; }
+  36% { opacity: 0.75; }
+  60% { opacity: 0.25; }
+  100% { opacity: 0; }
+}
+
+/* ───────── GLOBAL LIGHTNING STAGE ───────── */
+.global-lightning-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+  mix-blend-mode: screen;
+}
+.global-bolt-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.global-bolt-svg.bolt-anim {
+  animation: global-bolt-flicker 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+}
+@keyframes global-bolt-flicker {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  20% { opacity: 0.15; }
+  32% { opacity: 0.95; }
+  58% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+.global-bolt-glow {
+  fill: none;
+  stroke: oklch(0.69 0.22 28 / 95%);
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#globalLightningBloom);
+}
+.global-bolt-core {
+  fill: none;
+  stroke: oklch(0.96 0.03 30 / 95%);
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.global-bolt-branch {
+  fill: none;
+  stroke: oklch(0.75 0.18 28 / 85%);
+  stroke-width: 1.2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ───────── SOCIAL PROOF BAR ───────── */
+.proof-bar {
+  padding: 62px clamp(24px, 9.2vw, 148px);
+  border-block-end: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 20% 50%, oklch(0.61 0.235 28 / 5%), transparent 50%),
+    radial-gradient(ellipse at 80% 50%, oklch(0.61 0.235 28 / 4%), transparent 50%),
+    oklch(0.09 0.008 26);
+}
+.proof-bar-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.proof-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 12px 20px;
+}
+.proof-number {
+  font: 800 clamp(38px, 5.2vw, 60px)/1 var(--display);
+  color: var(--paper);
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 50px oklch(0.61 0.235 28 / 35%), 0 0 100px oklch(0.61 0.235 28 / 15%);
+  position: relative;
+}
+.proof-number-static {
+  color: var(--red-bright);
+}
+.proof-label {
+  color: var(--paper-dim);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.proof-divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(180deg, transparent, oklch(0.61 0.235 28 / 50%), transparent);
+  position: relative;
+}
+.proof-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--red-bright);
+  box-shadow: 0 0 12px var(--red);
+}
+
+/* ───────── PRODUCT ACTIONS & CTA ───────── */
+.product-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.product-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  background: var(--red);
+  color: var(--paper);
+  font-size: 10px;
+  font-weight: 700;
+  overflow: hidden;
+  transition: background 0.25s ease, transform 0.25s var(--ease), box-shadow 0.25s ease;
+}
+.product-cta span {
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+.product-cta:hover {
+  background: var(--red-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px oklch(0.61 0.235 28 / 30%);
+}
+.product-cta:hover span {
+  transform: translateX(-3px);
+}
+/* Shimmer sweep */
+.product-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 18%), transparent);
+  transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.product-cta:hover::after {
+  left: 100%;
+}
+
+/* ───────── BENEFITS ───────── */
+.benefits {
+  padding-top: 120px;
+  padding-bottom: 130px;
+  position: relative;
+}
+/* Subtle background texture */
+.benefits::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image:
+    radial-gradient(oklch(0.8 0.01 30 / 30%) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+.benefit-card {
+  position: relative;
+  padding: 32px 24px 28px;
+  border: 1px solid oklch(0.8 0.01 35 / 12%);
+  background: var(--ink-soft);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+/* Animated gradient border on hover */
+.benefit-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 40%, var(--red-bright) 50%, oklch(0.8 0.18 40) 60%, transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px oklch(0.08 0.005 25 / 60%);
+}
+.benefit-card:hover::before {
+  opacity: 1;
+  animation: spin-border 3s linear infinite;
+}
+@keyframes spin-border {
+  to { --border-angle: 360deg; }
+}
+/* Subtle corner accent */
+.benefit-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(225deg, oklch(0.61 0.235 28 / 12%), transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.benefit-card:hover::after {
+  opacity: 0;
+}
+.benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+  border: 1px solid oklch(0.8 0.02 35 / 20%);
+  color: var(--red-bright);
+  background: oklch(0.61 0.235 28 / 6%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease, border-color 0.35s ease;
+}
+.benefit-card:hover .benefit-icon {
+  transform: scale(1.1) translateY(-2px);
+  background: oklch(0.61 0.235 28 / 14%);
+  border-color: oklch(0.69 0.22 28 / 50%);
+}
+.benefit-card h3 {
+  margin: 0 0 8px;
+  font: 600 17px/1.4 var(--display);
+  color: var(--paper);
+}
+.benefit-card p {
+  margin: 0;
+  color: oklch(0.68 0.012 35);
+  font-size: 11px;
+  line-height: 2;
+}
+/* Staggered reveal */
+.js-enabled .benefits-grid .benefit-card {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js-enabled .benefits-grid.is-seen .benefit-card { opacity: 1; transform: none; }
+.js-enabled .benefits-grid.is-seen .benefit-card:nth-child(2) { transition-delay: 0.1s; }
+.js-enabled .benefits-grid.is-seen .benefit-card:nth-child(3) { transition-delay: 0.2s; }
+.js-enabled .benefits-grid.is-seen .benefit-card:nth-child(4) { transition-delay: 0.3s; }
+
+/* ───────── REVIEWS SHOWCASE — شغلنا بيتكلم ───────── */
+.reviews-showcase {
+  padding-top: 120px;
+  padding-bottom: 130px;
+  position: relative;
+}
+
+/* ── Verified Reviews Grid (شغلنا بيتكلم) ── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.review-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 22px 22px;
+  border: 1px solid oklch(0.8 0.01 35 / 12%);
+  background:
+    linear-gradient(155deg, oklch(0.16 0.01 26 / 90%), var(--ink-soft) 70%);
+  overflow: hidden;
+  transition: border-color 0.35s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.review-card:hover {
+  border-color: oklch(0.69 0.18 28 / 50%);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px oklch(0.08 0.005 25 / 55%);
+}
+.review-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red-bright), oklch(0.8 0.18 40));
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.review-card:hover::after {
+  width: 100%;
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.review-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--red), oklch(0.35 0.12 28));
+  color: var(--paper);
+  font: 700 13px/1 var(--display);
+  box-shadow: 0 0 12px oklch(0.61 0.235 28 / 25%);
+}
+.review-user strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--paper);
+  line-height: 1.3;
+}
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8px;
+  color: #4ade80;
+  line-height: 1;
+  margin-top: 2px;
+}
+.verified-badge svg {
+  width: 12px;
+  height: 12px;
+}
+.review-stars {
+  color: var(--red-bright);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 16px oklch(0.61 0.235 28 / 35%);
+}
+.review-product-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 9px;
+  margin-bottom: 14px;
+  border: 1px solid oklch(0.8 0.02 35 / 18%);
+  background: oklch(0.11 0.008 26 / 65%);
+  color: var(--paper-dim);
+  font-size: 9px;
+  letter-spacing: 0.02em;
+}
+.review-text {
+  margin: 0;
+  color: oklch(0.82 0.012 35);
+  font-size: 11.5px;
+  line-height: 2;
+  flex: 1;
+}
+.review-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: oklch(0.55 0.012 35);
+  font-size: 9px;
+}
+/* If a real screenshot image is dropped inside .review-card */
+.review-card img {
+  width: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.review-card img:hover {
+  transform: scale(1.02);
+}
+/* Staggered reveal for review cards */
+.js-enabled .reviews-grid .review-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js-enabled .reviews-grid.is-seen .review-card { opacity: 1; transform: none; }
+.js-enabled .reviews-grid.is-seen .review-card:nth-child(2) { transition-delay: 0.08s; }
+.js-enabled .reviews-grid.is-seen .review-card:nth-child(3) { transition-delay: 0.16s; }
+.js-enabled .reviews-grid.is-seen .review-card:nth-child(4) { transition-delay: 0.24s; }
+.js-enabled .reviews-grid.is-seen .review-card:nth-child(5) { transition-delay: 0.32s; }
+.js-enabled .reviews-grid.is-seen .review-card:nth-child(6) { transition-delay: 0.40s; }
+
+/* ───────── CLOSING CTA UPDATES ───────── */
+.closing-subtitle {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 26px;
+  color: oklch(0.96 0.015 40 / 85%);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.closing-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.button-outline {
+  position: relative;
+  z-index: 1;
+  color: var(--paper);
+  border: 1px solid oklch(0.92 0.02 40 / 35%);
+  background: transparent;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease, transform 0.22s var(--ease);
+}
+.button-outline:hover {
+  background: oklch(0.98 0.01 40 / 12%);
+  border-color: oklch(0.92 0.02 40 / 60%);
+  transform: translateY(-2px);
+}
+.button-outline span {
+  font-size: 18px;
+  line-height: 1;
+}
+/* WhatsApp CTA — pulsing glow */
+.closing-actions .button-light {
+  animation: cta-glow 2.5s ease-in-out infinite;
+}
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.95 0.01 50 / 0%); }
+  50% { box-shadow: 0 0 30px 4px oklch(0.95 0.01 50 / 18%); }
+}
+
+/* ───────── MODAL DIALOG ACTIONS ───────── */
+.dialog-actions {
+  margin-top: 22px;
+}
+.dialog-order-btn {
+  width: 100%;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ───────── FOOTER SOCIAL ───────── */
+.footer-social {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+}
+.social-link {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid oklch(0.8 0.01 35 / 18%);
+  color: oklch(0.6 0.012 35);
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s var(--ease);
+}
+.social-link:hover {
+  color: var(--paper);
+  border-color: var(--red-bright);
+  background: oklch(0.61 0.235 28 / 10%);
+  transform: translateY(-2px);
+}
+.social-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ───────── WHATSAPP FLOAT ───────── */
+.whatsapp-float {
+  position: fixed;
+  z-index: 40;
+  inset-inline-end: 24px;
+  bottom: 24px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #25d366;
+  color: white;
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.35);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  /* Entry animation */
+  animation: wa-float-in 0.6s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.5);
+}
+.whatsapp-float svg {
+  width: 28px;
+  height: 28px;
+}
+/* Pulse ring */
+.whatsapp-float::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 211, 102, 0.4);
+  animation: wa-pulse 2.5s ease-out infinite;
+}
+@keyframes wa-float-in {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes wa-pulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 980px) {
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(3) { transition-delay: 0.08s; }
+}
+
+@media (max-width: 700px) {
+  .proof-bar { padding: 42px 22px; }
+  .proof-bar-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 0;
+  }
+  .proof-divider { display: none; }
+  .proof-number { font-size: clamp(30px, 9vw, 42px); }
+  .proof-label { font-size: 9px; }
+
+  .benefits { padding-block: 80px 90px; }
+  .benefits-grid { grid-template-columns: 1fr; gap: 12px; }
+  .js-enabled .benefits-grid.is-seen .benefit-card:nth-child(2) { transition-delay: 0.06s; }
+  .js-enabled .benefits-grid.is-seen .benefit-card:nth-child(3) { transition-delay: 0.12s; }
+  .js-enabled .benefits-grid.is-seen .benefit-card:nth-child(4) { transition-delay: 0.18s; }
+
+  .reviews-showcase { padding-block: 80px 90px; }
+  .reviews-grid { grid-template-columns: 1fr; gap: 12px; }
+  .review-card { padding: 22px 18px; }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(2) { transition-delay: 0.06s; }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(3) { transition-delay: 0.12s; }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(4) { transition-delay: 0.18s; }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(5) { transition-delay: 0.24s; }
+  .js-enabled .reviews-grid.is-seen .review-card:nth-child(6) { transition-delay: 0.30s; }
+
+  .closing-subtitle { font-size: 12px; }
+  .closing-actions { flex-direction: column; gap: 12px; }
+  .closing-actions .button { width: min(100%, 300px); }
+
+  .footer-social { gap: 8px; }
+  .social-link { width: 34px; height: 34px; }
+  .social-link svg { width: 14px; height: 14px; }
+
+  .whatsapp-float { width: 52px; height: 52px; inset-inline-end: 16px; bottom: 16px; }
+  .whatsapp-float svg { width: 24px; height: 24px; }
+
+  .product-actions { gap: 10px; }
+  .product-cta { padding: 8px 14px; font-size: 9px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIQUID GLASS BUTTON SYSTEM (أزرار الزجاج السائل الفاخرة)
+   Translucent depth, specular refraction, liquid meniscus & fluid shimmer
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Primary Liquid Glass Button (Red Ruby Glass) ─── */
+.button-primary {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border-radius: 9999px !important;
+  padding: 0 32px !important;
+  min-height: 52px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, oklch(0.66 0.25 28 / 75%) 0%, oklch(0.55 0.22 28 / 48%) 50%, oklch(0.42 0.18 28 / 32%) 100%) !important;
+  backdrop-filter: blur(6px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(160%) !important;
+  border: 1px solid oklch(0.8 0.18 35 / 55%) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.4),
+    0 10px 32px -4px oklch(0.61 0.235 28 / 55%),
+    0 0 18px oklch(0.65 0.24 28 / 30%) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, background 0.25s ease !important;
+}
+
+/* Specular Meniscus Highlight */
+.button-primary::before {
+  content: "";
+  position: absolute;
+  inset: 1px 1px auto 1px;
+  height: 48%;
+  border-radius: 9999px 9999px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.03) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fluid Light Sheen */
+.button-primary::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: rotate(25deg);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.button-primary:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  background: linear-gradient(135deg, oklch(0.72 0.24 28 / 85%) 0%, oklch(0.6 0.23 28 / 60%) 50%, oklch(0.46 0.2 28 / 40%) 100%) !important;
+  box-shadow:
+    inset 0 2px 2px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.4),
+    0 14px 40px -4px oklch(0.65 0.25 28 / 75%),
+    0 0 30px oklch(0.7 0.22 28 / 45%) !important;
+}
+
+.button-primary:hover::after {
+  transform: translateX(380%) rotate(25deg);
+}
+
+.button-primary:active {
+  transform: translateY(0) scale(0.99) !important;
+}
+
+/* ─── 2. Header CTA Liquid Glass (Frosted Glass Pill) ─── */
+.header-cta {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  border-radius: 9999px !important;
+  min-height: 42px !important;
+  padding: 0 20px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+  backdrop-filter: blur(6px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  color: var(--paper) !important;
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.header-cta::before {
+  content: "";
+  position: absolute;
+  inset: 1px 1px auto 1px;
+  height: 48%;
+  border-radius: 9999px 9999px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.02) 100%);
+  pointer-events: none;
+}
+
+.header-cta:hover {
+  transform: translateY(-2px) translateZ(0);
+  border-color: oklch(0.72 0.22 28 / 65%) !important;
+  background: linear-gradient(135deg, oklch(0.65 0.24 28 / 26%) 0%, rgba(255, 255, 255, 0.06) 100%) !important;
+  box-shadow:
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.6),
+    0 10px 28px oklch(0.61 0.235 28 / 35%) !important;
+}
+
+/* ─── 3. Product Catalog CTA Liquid Glass ─── */
+.product-cta {
+  border-radius: 9999px !important;
+  padding: 10px 22px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, oklch(0.65 0.24 28 / 75%) 0%, oklch(0.5 0.2 28 / 45%) 100%) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1px solid oklch(0.78 0.18 35 / 55%) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4),
+    0 8px 24px oklch(0.61 0.235 28 / 45%) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.product-cta:hover {
+  transform: translateY(-2px) scale(1.02) translateZ(0) !important;
+  background: linear-gradient(135deg, oklch(0.72 0.24 28 / 85%) 0%, oklch(0.58 0.22 28 / 55%) 100%) !important;
+  box-shadow:
+    inset 0 2px 2px 0 rgba(255, 255, 255, 0.75),
+    0 12px 32px oklch(0.61 0.235 28 / 65%) !important;
+}
+
+/* ─── 4. Filter Buttons (Liquid Glass Capsules) ─── */
+.filter-button {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.2s var(--ease), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.filter-button:hover {
+  transform: translateY(-1px) translateZ(0);
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+}
+
+.filter-button.is-active {
+  background: linear-gradient(135deg, oklch(0.65 0.24 28 / 65%) 0%, oklch(0.48 0.2 28 / 38%) 100%) !important;
+  border-color: oklch(0.78 0.18 35 / 65%) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.6),
+    0 8px 24px oklch(0.61 0.235 28 / 45%) !important;
+}
+
+/* ─── 5. Coach Options (Liquid Glass Selection Panels) ─── */
+.coach-option {
+  border-radius: 12px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(20, 20, 24, 0.55) 100%) !important;
+  backdrop-filter: blur(6px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.coach-option:hover {
+  transform: translateY(-2px) translateZ(0);
+  border-color: oklch(0.72 0.22 28 / 65%) !important;
+  background: linear-gradient(135deg, oklch(0.65 0.24 28 / 18%) 0%, rgba(25, 25, 30, 0.65) 100%) !important;
+  box-shadow:
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.45),
+    0 10px 28px oklch(0.61 0.235 28 / 25%) !important;
+}
+
+.coach-option[aria-pressed="true"] {
+  border-color: oklch(0.8 0.18 35 / 75%) !important;
+  background: linear-gradient(135deg, oklch(0.65 0.24 28 / 40%) 0%, oklch(0.35 0.12 28 / 60%) 100%) !important;
+  box-shadow:
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.6),
+    0 10px 32px oklch(0.61 0.235 28 / 45%) !important;
+}
+
+/* ─── 6. Closing Section Buttons (Crystal & Obsidian Liquid Glass) ─── */
+.closing-actions .button-light {
+  border-radius: 9999px !important;
+  padding: 0 32px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 245, 0.82) 100%) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  color: var(--ink) !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 1),
+    0 10px 32px rgba(255, 255, 255, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+.closing-actions .button-dark {
+  border-radius: 9999px !important;
+  padding: 0 32px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(20, 20, 24, 0.7) 100%) !important;
+  backdrop-filter: blur(6px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  color: var(--paper) !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.45),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ─── 7. WhatsApp Float (Emerald Liquid Glass) ─── */
+.whatsapp-float {
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.92) 0%, rgba(18, 140, 64, 0.8) 100%) !important;
+  backdrop-filter: blur(6px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow:
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.75),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.35),
+    0 10px 32px rgba(37, 211, 102, 0.5) !important;
+}
+
+/* ─── 8. Dialog Order Button (Liquid Glass) ─── */
+.dialog-order-btn {
+  border-radius: 9999px !important;
+  padding: 12px 28px !important;
+  transform: translateZ(0);
+  background: linear-gradient(135deg, rgba(37, 211, 102, 0.92) 0%, rgba(18, 140, 64, 0.8) 100%) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.7),
+    0 8px 28px rgba(37, 211, 102, 0.45) !important;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s ease !important;
+}
+.dialog-order-btn:hover {
+  transform: translateY(-2px) scale(1.02) translateZ(0);
+  box-shadow:
+    inset 0 2px 2px rgba(255, 255, 255, 0.85),
+    0 12px 36px rgba(37, 211, 102, 0.6) !important;
+}
+
+/* ───────── REDUCED MOTION ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .js-enabled .benefits-grid .benefit-card,
+  .js-enabled .reviews-grid .review-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .benefit-card:hover::before { animation: none; }
+  .whatsapp-float { animation: none; }
+  .whatsapp-float::before { animation: none; }
+  .closing-actions .button-light { animation: none; }
+  .review-card::after { transition: none; }
+  .grid-illuminated.flash-active, .sky-flash.flash-active, .global-bolt-svg.bolt-anim { animation: none; opacity: 0; }
+  .hero-carved-brand.flash-active .carved-letter-core, .hero-carved-brand.flash-active .fissure-crack, .hero-carved-brand.flash-active .carved-crater { animation: none; }
+}

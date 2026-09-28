@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0909">
+  <meta name="description" content="RA3D Nutrition. كرياتين، تركيبة ما قبل التمرين، وكربوهيدرات. اكتشف المنتجات واقرأ تفاصيل كل عبوة.">
+  <title>RA3D Nutrition — اختار فئتك</title>
+  <link rel="preload" href="public/font/thmanyah-serif-display/woff2/thmanyahserifdisplay-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="public/font/thmanyah-sans/woff2/thmanyahsans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="public/font/thmanyah-sans/woff2/thmanyahsans-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="new-sections.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ═══════════ GLOBAL REACTIVE GRID & LIGHTNING STAGE ═══════════ -->
+  <div class="global-grid-bg" id="globalGrid" aria-hidden="true">
+    <div class="grid-lines"></div>
+    <div class="grid-illuminated" id="gridIlluminated"></div>
+    <div class="sky-flash" id="skyFlash"></div>
+  </div>
+  <div class="global-lightning-stage" id="globalLightningStage" aria-hidden="true">
+    <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="globalLightningBloom" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="8" />
+        </filter>
+      </defs>
+    </svg>
+  </div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="RA3D Nutrition، الصفحة الرئيسية">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 34 42"><path d="M19 2 3 23h11l-2 17 19-25H19z" fill="currentColor"/></svg></span>
+      <span class="brand-word">RA3D<span class="brand-sub">NUTRITION</span></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="siteNav"><span></span><span></span></button>
+    <nav class="site-nav" id="siteNav" aria-label="التنقل الرئيسي">
+      <a href="#products">المنتجات</a><a href="#why">ليه RA3D</a><a href="#reviews">آراء العملاء</a><a href="#approach">فلسفتنا</a><a href="#faq">أسئلة شائعة</a>
+    </nav>
+    <a class="header-cta" href="#products">تصفّح المنتجات <span aria-hidden="true">←</span></a>
+  </header>
+
+  <main>
+    <!-- ═══════════════════ HERO ═══════════════════ -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-backdrop" aria-hidden="true"></div>
+
+      <!-- ⚡ اسم "رعد" محفور في الجدار بضربة صاعق (يتوسط المسافة بين الماسكوت والكلام وينير مع ضربات البرق) -->
+      <div class="hero-carved-brand" id="heroCarvedRa3d" aria-hidden="true" title="اضغط لاستدعاء الصاعقة">
+        <div class="carved-crater"></div>
+        <svg class="carved-fissures" viewBox="0 0 500 270" fill="none" preserveAspectRatio="none">
+          <!-- تشققات صخرية ناتجة عن ضربة الصاعق متفرعة في الجدار -->
+          <path class="fissure-crack crack-main-1" d="M 230 130 L 200 110 L 175 118 L 140 85 L 110 92 L 65 60 L 25 45" />
+          <path class="fissure-crack crack-sub-1" d="M 175 118 L 160 145 L 135 155 L 105 180" />
+          <path class="fissure-crack crack-main-2" d="M 290 125 L 320 105 L 345 112 L 380 80 L 415 88 L 460 55 L 485 42" />
+          <path class="fissure-crack crack-sub-2" d="M 345 112 L 360 138 L 390 148 L 420 170" />
+          <path class="fissure-crack crack-main-3" d="M 225 155 L 195 180 L 170 175 L 135 210 L 95 220 L 50 248" />
+          <path class="fissure-crack crack-main-4" d="M 295 160 L 325 185 L 355 180 L 390 215 L 430 225 L 465 250" />
+          <path class="fissure-crack crack-center-top" d="M 255 105 L 260 70 L 250 45 L 265 15" />
+          <path class="fissure-crack crack-center-bottom" d="M 262 175 L 258 205 L 268 235 L 260 260" />
+        </svg>
+        <div class="carved-word-wrap">
+          <span class="carved-letter-groove">رَعْد</span>
+          <span class="carved-letter-core">رَعْد</span>
+        </div>
+        <span class="carved-sub">RA3D / VOLTAGE FORGED</span>
+      </div>
+      <img class="hero-mascot" src="public/assets/mascot.png" alt="كابتن رعد - RA3D Nutrition" width="452" height="890" fetchpriority="high" decoding="async">
+      <div class="hero-content">
+        <p class="hero-kicker"><i></i> COACH RA3D / دليلك للاختيار</p>
+        <h1 id="heroTitle">اختار فئتك<br><span>وأنا أوصّلك.</span></h1>
+        <p class="hero-copy">قولّي بتدور على إيه في روتينك، وهعرض لك المنتجات المرتبطة بيه. راجع المكونات والتفاصيل، وخلي قرارك بإيدك.</p>
+        <fieldset class="coach-picker" id="coachPicker">
+          <legend>بتدور على إيه؟</legend>
+          <div class="coach-options" role="group" aria-label="اختار فئة المنتجات">
+            <button class="coach-option" type="button" data-coach-filter="strength" aria-pressed="false">
+              <span class="coach-option-index">01</span><span class="coach-option-label"><strong>القوة</strong><small>كرياتين</small></span><span class="coach-option-arrow" aria-hidden="true">↙</span>
+            </button>
+            <button class="coach-option" type="button" data-coach-filter="energy" aria-pressed="false">
+              <span class="coach-option-index">02</span><span class="coach-option-label"><strong>قبل التمرين</strong><small>تركيبة ما قبل التمرين</small></span><span class="coach-option-arrow" aria-hidden="true">↙</span>
+            </button>
+            <button class="coach-option" type="button" data-coach-filter="carbs" aria-pressed="false">
+              <span class="coach-option-index">03</span><span class="coach-option-label"><strong>الكربوهيدرات</strong><small>CARB / Blueberry</small></span><span class="coach-option-arrow" aria-hidden="true">↙</span>
+            </button>
+          </div>
+          <p class="coach-note">اختيار الفئة يسهّل التصفح فقط، راجع ملصق المنتج قبل الاستخدام.</p>
+        </fieldset>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#products">كل المنتجات <span aria-hidden="true">↙</span></a>
+          <a class="text-link" href="#approach">اعرف طريقتنا <span aria-hidden="true">←</span></a>
+        </div>
+        <div class="hero-notes"><span>◆ معلومات واضحة</span><span>◆ اختيار مسؤول</span><span>◆ تمرين بطريقتك</span></div>
+      </div>
+      <div class="hero-stamp" aria-hidden="true"><span>BUILT FOR</span><strong>YOUR<br>PACE</strong><small>VOL. 01 / PERFORMANCE</small></div>
+      <a class="scroll-cue" href="#products"><i></i> انزل واكتشف</a>
+      <span class="hero-coordinate" aria-hidden="true">29°58' N / 31°08' E</span>
+    </section>
+
+    <!-- ═══════════════════ SOCIAL PROOF BAR ═══════════════════ -->
+    <section class="proof-bar reveal" aria-label="إحصائيات RA3D">
+      <div class="proof-bar-inner">
+        <div class="proof-stat">
+          <span class="proof-number" data-count="1200" data-suffix="+">0</span>
+          <span class="proof-label">عميل استلم أوردره</span>
+        </div>
+        <div class="proof-divider" aria-hidden="true"></div>
+        <div class="proof-stat">
+          <span class="proof-number" data-count="3500" data-suffix="+">0</span>
+          <span class="proof-label">عبوة اتباعت</span>
+        </div>
+        <div class="proof-divider" aria-hidden="true"></div>
+        <div class="proof-stat">
+          <span class="proof-number" data-count="18">0</span>
+          <span class="proof-label">محافظة بنوصلها</span>
+        </div>
+        <div class="proof-divider" aria-hidden="true"></div>
+        <div class="proof-stat">
+          <span class="proof-number proof-number-static">4.8</span>
+          <span class="proof-label">تقييم العملاء</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ PRODUCTS CATALOG ═══════════════════ -->
+    <section class="catalog section-wrap" id="products" aria-labelledby="productsTitle">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow"><span>01</span> اختياراتك</p><h2 id="productsTitle">دور على اللي <em>يناسبك.</em></h2></div>
+        <p class="section-intro">اختار فئة أو تصفّح المجموعة كاملة. اقرأ التفاصيل واسأل مختص قبل ما تضيف أي مكمل لروتينك.</p>
+      </div>
+      <div class="catalog-toolbar reveal">
+        <div class="filter-list" role="group" aria-label="تصفية المنتجات">
+          <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">الكل <span>03</span></button>
+          <button class="filter-button" type="button" data-filter="strength" aria-pressed="false">القوة</button>
+          <button class="filter-button" type="button" data-filter="energy" aria-pressed="false">قبل التمرين</button>
+          <button class="filter-button" type="button" data-filter="carbs" aria-pressed="false">الكربوهيدرات</button>
+        </div>
+        <span class="catalog-index">RA3D / PRODUCTS <b>—</b> 2026</span>
+      </div>
+      <p class="catalog-status" id="catalogStatus" aria-live="polite">المجموعة كاملة ظاهرة، اختار فئة للتصفية.</p>
+      <div class="product-grid">
+        <article class="product-card product-feature reveal" data-category="strength">
+          <div class="product-art product-art-photo">
+            <img class="product-photo" src="public/assets/ra3d-creatine.png" alt="عبوة كرياتين مونوهيدرات RA3D Nutrition مع مسحوق الكرياتين" width="400" height="400" loading="lazy" decoding="async">
+            <span class="art-index">01 / CREATINE</span>
+            <span class="photo-badge">5 G / SERVING</span>
+          </div>
+          <div class="product-copy">
+            <div class="product-meta"><span>القوة</span><span>RA3D—01</span></div>
+            <h3>كرياتين مونوهيدرات</h3>
+            <p>100% Micronized. العبوة موضح عليها 5 جم للحصة، 30 حصة، و150 جم صافي.</p>
+            <div class="product-actions">
+              <button class="product-link" type="button" data-product="creatine">تفاصيل المنتج <span aria-hidden="true">↙</span></button>
+              <a class="product-cta" href="https://wa.me/20XXXXXXXXXX?text=%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20%D9%83%D8%B1%D9%8A%D8%A7%D8%AA%D9%8A%D9%86%20%D9%85%D9%88%D9%86%D9%88%D9%87%D9%8A%D8%AF%D8%B1%D8%A7%D8%AA" target="_blank" rel="noopener">اطلب دلوقتي <span aria-hidden="true">←</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="product-card product-side reveal" data-category="energy">
+          <div class="product-art product-art-photo">
+            <img class="product-photo" src="public/assets/ra3d-preworkout.png" alt="عبوة LAST REP Pre-Workout من RA3D Nutrition بنكهة Red Thunder" width="400" height="400" loading="lazy" decoding="async">
+            <span class="art-index">02 / PRE-WORKOUT</span>
+            <span class="photo-badge">LAST REP / RED THUNDER</span>
+          </div>
+          <div class="product-copy">
+            <div class="product-meta"><span>قبل التمرين</span><span>RA3D—02</span></div>
+            <h3>LAST REP</h3>
+            <p>تركيبة ما قبل التمرين بنكهة Red Thunder. العبوة موضح عليها 10 حصص.</p>
+            <div class="product-actions">
+              <button class="product-link" type="button" data-product="preworkout">تفاصيل المنتج <span aria-hidden="true">↙</span></button>
+              <a class="product-cta" href="https://wa.me/20XXXXXXXXXX?text=%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20LAST%20REP" target="_blank" rel="noopener">اطلب دلوقتي <span aria-hidden="true">←</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="product-card product-side reveal" data-category="carbs">
+          <div class="product-art product-art-photo">
+            <img class="product-photo" src="public/assets/ra3d-carb.png" alt="عبوة CARB كربوهيدرات من RA3D Nutrition بنكهة Blueberry" width="400" height="400" loading="lazy" decoding="async">
+            <span class="art-index">03 / CARB</span>
+            <span class="photo-badge">BLUEBERRY / 1000 G</span>
+          </div>
+          <div class="product-copy">
+            <div class="product-meta"><span>كربوهيدرات</span><span>RA3D—03</span></div>
+            <h3>CARB</h3>
+            <p>كربوهيدرات بنكهة Blueberry. العبوة موضح عليها 23 حصة؛ راجع الملصق للمعلومات الغذائية.</p>
+            <div class="product-actions">
+              <button class="product-link" type="button" data-product="carbs">تفاصيل المنتج <span aria-hidden="true">↙</span></button>
+              <a class="product-cta" href="https://wa.me/20XXXXXXXXXX?text=%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B7%D9%84%D8%A8%20CARB" target="_blank" rel="noopener">اطلب دلوقتي <span aria-hidden="true">←</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="catalog-footnote">راجع بيانات العبوة الفعلية والمكونات وإرشادات الاستخدام قبل الشراء أو الاستخدام.</p>
+    </section>
+
+    <!-- ═══════════════════ BENEFITS ═══════════════════ -->
+    <section class="benefits section-wrap" id="why" aria-labelledby="whyTitle">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow"><span>02</span> ليه RA3D</p><h2 id="whyTitle">الفرق اللي <em>بيفرق.</em></h2></div>
+        <p class="section-intro">مش بس منتجات — دي فلسفة كاملة مبنية على الشفافية والجودة.</p>
+      </div>
+      <div class="benefits-grid reveal">
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></span>
+          <h3>ملصق واضح</h3>
+          <p>كل مكون مكتوب بالظبط. مفيش تركيبات مخفية أو "Proprietary Blends".</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1m-3 0a1 1 0 001 1m1-1h1m-1 0a1 1 0 01-1-1m5 1a2 2 0 100-4 2 2 0 000 4zm-8 0a2 2 0 100-4 2 2 0 000 4z"/></svg></span>
+          <h3>توصيل لحد بابك</h3>
+          <p>بنوصل لكل المحافظات. الأوردر بيتجهز ويتشحن في أسرع وقت.</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span>
+          <h3>سعر عادل</h3>
+          <p>جودة عالية بسعر مناسب. مش بتدفع تمن الماركة، بتدفع تمن المنتج.</p>
+        </div>
+        <div class="benefit-card">
+          <span class="benefit-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></span>
+          <h3>تركيبات مدروسة</h3>
+          <p>كل منتج بجرعات فعّالة مبنية على أبحاث. مش مجرد حشو.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ REVIEWS SHOWCASE — شغلنا بيتكلم ═══════════════════ -->
+    <section class="reviews-showcase section-wrap" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow"><span>03</span> من الواقع</p><h2 id="reviewsTitle">شغلنا <em>بيتكلم.</em></h2></div>
+        <p class="section-intro">ريفيوهات حقيقية من عملاء استلموا أوردراتهم وجربوا منتجاتنا.</p>
+      </div>
+
+      <!-- ── Verified Reviews Grid (شغلنا بيتكلم) ── -->
+      <!-- يمكنك ترك البطاقات كنصوص ريفيو موثقة، أو وضع <img> سكرينشوت داخل أي بطاقة لعرض الصورة مباشرة -->
+      <div class="reviews-grid reveal">
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">ك</span>
+              <div>
+                <strong>كريم عبد العزيز</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">كرياتين مونوهيدرات 150 جم</span>
+          <p class="review-text">"الباكدج وصل بعد 48 ساعة، التغليف شيك والبودرة ميكرونايزد ناعمة جداً بتدوب في المية بدون أي ترسبات. فرق ملحوظ في الريكفري بعد أول 10 أيام تمرين."</p>
+          <div class="review-footer">
+            <span>القاهرة • طلب مؤكد عبر واتساب</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">ع</span>
+              <div>
+                <strong>كابتن عمر نبيل</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">LAST REP / Red Thunder</span>
+          <p class="review-text">"جربت بري-ورك أوتس كتير مستوردة ومحلية، LAST REP طعمه محترم جداً، والتركيز والبامب عاليين من غير الرعشة المزعجة أو الكراش بعد التمرين. عاش يا رجالة."</p>
+          <div class="review-footer">
+            <span>الإسكندرية • طلب مؤكد</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">إ</span>
+              <div>
+                <strong>إسلام مدحت</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">CARB كربوهيدرات / Blueberry</span>
+          <p class="review-text">"نكهة البلو بيري ممتازة وسكرها معتدل، باخده إنتر-ورك أوت مع التمرينة الطويلة بيديني طاقة مستمرة ومفيش أي ثقل أو هبوط. منتج نظيف يستاهل."</p>
+          <div class="review-footer">
+            <span>الجيزة • طلب مؤكد عبر واتساب</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">م</span>
+              <div>
+                <strong>محمود شاكر</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">باكدج القوة (كرياتين + بري وورك أوت)</span>
+          <p class="review-text">"دي تاني مرة أطلب منكم، الأمانة في كتابة المكونات من غير بليندز مجهولة هي اللي شجعتني. خدمة العملاء على الواتساب ردوا بسرعة ووضحوا كل التفاصيل."</p>
+          <div class="review-footer">
+            <span>المنصورة • عميل متكرر</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">ط</span>
+              <div>
+                <strong>طارق يوسف</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">كرياتين مونوهيدرات 150 جم</span>
+          <p class="review-text">"المنتج موضح عليه كل التفاصيل بشفافية. زدت في أوزان السكوات والددليفت بشكل ملحوظ في تالت أسبوع. شكراً على الالتزام في الميعاد وجودة المنتج."</p>
+          <div class="review-footer">
+            <span>طنطا • طلب مؤكد</span>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-header">
+            <div class="review-user">
+              <span class="user-avatar">هـ</span>
+              <div>
+                <strong>هشام فوزي</strong>
+                <span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> مشتري موثّق</span>
+              </div>
+            </div>
+            <span class="review-stars" aria-label="5 نجوم">★★★★★</span>
+          </div>
+          <span class="review-product-tag">LAST REP / Red Thunder</span>
+          <p class="review-text">"10 حصص مركزة بجد، سكوب واحد كان كافي جداً لتمرينة شاقة. الشحن كان سريع والعلبة وصلت بحالة ممتازة ومعاها كل الإرشادات."</p>
+          <div class="review-footer">
+            <span>المعادي • طلب مؤكد عبر واتساب</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ APPROACH ═══════════════════ -->
+    <section class="approach" id="approach" aria-labelledby="approachTitle">
+      <div class="approach-art" aria-hidden="true"><span class="bolt-ghost">ϟ</span><span class="approach-ring"></span><span class="approach-number">R / 01</span></div>
+      <div class="approach-copy reveal">
+        <p class="eyebrow eyebrow-light"><span>04</span> طريقتنا</p>
+        <h2 id="approachTitle">اقرأ اللي بتاخده.<br><em>واختار بعين مفتوحة.</em></h2>
+        <p>المكمل مش اختصار للطريق. هو اختيار إضافي لازم تفهمه. إحنا بنؤمن إنك تستحق تعرف مكونات المنتج وإرشادات استخدامه قبل ما تقرر.</p>
+        <a class="button button-dark" href="#faq">اعرف أكتر <span aria-hidden="true">↙</span></a>
+      </div>
+      <span class="approach-side-note">CLEAR LABELS<br>BETTER CHOICES</span>
+    </section>
+
+    <!-- ═══════════════════ FAQ ═══════════════════ -->
+    <section class="faq section-wrap" id="faq" aria-labelledby="faqTitle">
+      <div class="faq-heading reveal"><p class="eyebrow"><span>05</span> قبل ما تختار</p><h2 id="faqTitle">أسئلة على <em>السريع.</em></h2><p>المعلومة الواضحة جزء من التمرين الذكي.</p></div>
+      <div class="faq-list reveal">
+        <details><summary>هل المكملات بديل عن الأكل المتوازن؟<span></span></summary><p>لأ. المكملات مش بديل عن الأكل المتوازن أو النوم أو برنامج تمرين مناسب.</p></details>
+        <details><summary>إزاي أعرف إذا كان المنتج مناسب ليا؟<span></span></summary><p>احتياج كل شخص مختلف. راجع المكونات وإرشادات الملصق، واستشر طبيب أو أخصائي تغذية مؤهل لو عندك حالة صحية أو بتاخد أدوية.</p></details>
+        <details><summary>إيه طريقة استخدام الكرياتين؟<span></span></summary><p>اتبع إرشادات المنتج نفسه، وما تعتمدش على نصيحة عامة بدل استشارة مختص صحي عند الحاجة.</p></details>
+        <details><summary>إزاي أطلب؟<span></span></summary><p>ابعتلنا رسالة على واتساب باسم المنتج والعنوان وهنأكدلك الأوردر في دقائق.</p></details>
+        <details><summary>بتوصلوا فين؟ وبتاخدوا وقت قد إيه؟<span></span></summary><p>بنوصل لكل محافظات مصر. التوصيل بياخد من 2–5 أيام عمل حسب المنطقة.</p></details>
+        <details><summary>الدفع بيكون إزاي؟<span></span></summary><p>الدفع عند الاستلام (كاش). متاح كمان الدفع أونلاين بالفيزا أو فودافون كاش.</p></details>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ CLOSING CTA ═══════════════════ -->
+    <section class="closing" aria-labelledby="closingTitle">
+      <span class="closing-mark" aria-hidden="true">ϟ</span>
+      <p class="eyebrow eyebrow-light"><span>RA3D / NUTRITION</span></p>
+      <h2 id="closingTitle">جاهز تبدأ؟ <em>اطلب دلوقتي.</em></h2>
+      <p class="closing-subtitle">ابعتلنا رسالة على واتساب وهنرد عليك في دقائق.</p>
+      <div class="closing-actions">
+        <a class="button button-light" href="https://wa.me/20XXXXXXXXXX" target="_blank" rel="noopener">اطلب عبر واتساب <span aria-hidden="true">←</span></a>
+        <a class="button button-outline" href="#products">شوف المنتجات <span aria-hidden="true">↙</span></a>
+      </div>
+      <p class="closing-note">خطوة أذكى تبدأ بمعلومة أوضح.</p>
+    </section>
+  </main>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#top" aria-label="RA3D Nutrition، الصفحة الرئيسية"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 34 42"><path d="M19 2 3 23h11l-2 17 19-25H19z" fill="currentColor"/></svg></span><span class="brand-word">RA3D<span class="brand-sub">NUTRITION</span></span></a>
+    <p class="footer-disclaimer">المعلومات هنا عامة ولا تُعد نصيحة طبية. استشر مختصًا قبل استخدام أي مكمل، خصوصًا لو عندك حالة صحية أو بتاخد أدوية.</p>
+    <a class="back-top" href="#top">العودة للأعلى <span>↑</span></a>
+    <div class="footer-social">
+      <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+      <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a class="social-link" href="#" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.16a8.16 8.16 0 004.76 1.58v-3.45a4.85 4.85 0 01-1-.6z"/></svg></a>
+    </div>
+    <small>© 2026 RA3D Nutrition.</small>
+  </footer>
+
+  <dialog class="product-dialog" id="productDialog" aria-labelledby="dialogTitle">
+    <button class="dialog-close" type="button" aria-label="إغلاق التفاصيل">×</button>
+    <p class="eyebrow"><span id="dialogCode">RA3D—01</span> / تفاصيل المنتج</p>
+    <h2 id="dialogTitle">المنتج</h2>
+    <p id="dialogDescription"></p>
+    <div class="dialog-actions">
+      <a class="button button-primary dialog-order-btn" id="dialogOrderBtn" href="https://wa.me/20XXXXXXXXXX" target="_blank" rel="noopener">اطلب دلوقتي عبر واتساب <span aria-hidden="true">←</span></a>
+    </div>
+    <p class="dialog-note">راجع الملصق الفعلي للتركيبة وإرشادات الاستخدام، واستشر مختصًا إذا لم تكن متأكدًا من ملاءمته لك.</p>
+  </dialog>
+
+  <!-- WhatsApp Floating Button -->
+  <a class="whatsapp-float" href="https://wa.me/20XXXXXXXXXX" target="_blank" rel="noopener" aria-label="تواصل معانا على واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
