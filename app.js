@@ -404,17 +404,20 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
   }
 
   /* ─── 5. Initial Welcome Strike Sequence ─── */
-  /* 1. يضرب ضربتين في السماء مرة واحدة */
-  /* 2. وبعد كدا يضرب الزرار كأنه بيشحنه وتفضل الشحنات الكهربائية العشوائية شغالة */
-  setTimeout(function () {
+  /* 1. يضرب ضربتين في السماء - مع فاصل زمني 65ms لتفادي تجميد الفريمات */
+  /* 2. وبعد كدا يضرب الزرار كأنه بيشحنه وتفضل الشحنات الكهربائية شغالة */
+  function startWelcomeSequence() {
     if (document.hidden) return;
 
     var viewW = window.innerWidth;
     var viewH = window.innerHeight;
 
-    /* الخطوة 1: ضربتين في السماء مرة واحدة */
+    /* الخطوة 1: ضربتين في السماء بفارق ميكروثواني لتوزيع معالجة الإطارات */
     triggerAtmosphericStrike(Math.round(viewW * 0.22), Math.round(viewH * 0.48));
-    triggerAtmosphericStrike(Math.round(viewW * 0.78), Math.round(viewH * 0.52));
+    setTimeout(function () {
+      if (document.hidden) return;
+      triggerAtmosphericStrike(Math.round(viewW * 0.78), Math.round(viewH * 0.52));
+    }, 65);
 
     /* الخطوة 2: بعد كده يضرب الزرار كأنه بيشحنه */
     setTimeout(function () {
@@ -422,8 +425,17 @@ if (proofBar && "IntersectionObserver" in window && !reducedMotion) {
       lastStrikeTime = Date.now();
       triggerCtaActivationStrike();
       scheduleAmbientStrike();
-    }, 720);
-  }, 420);
+    }, 780);
+  }
+
+  /* انتظر حتى يكتمل تحميل الصفحة واستقرار الفريمات لمنع أي تهنيج عند الفتح */
+  if (document.readyState === "complete") {
+    setTimeout(startWelcomeSequence, 650);
+  } else {
+    window.addEventListener("load", function () {
+      setTimeout(startWelcomeSequence, 650);
+    }, { once: true });
+  }
 })();
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -523,7 +535,12 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reducedM
     });
   }
 
-  onScrollUpdate();
+  /* Defer initial sync until browser is idle to eliminate forced synchronous reflow at startup */
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(onScrollUpdate);
+  } else {
+    setTimeout(onScrollUpdate, 350);
+  }
 })();
 
 

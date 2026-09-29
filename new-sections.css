@@ -413,10 +413,10 @@
 }
 @keyframes grid-strike-flash {
   0% { opacity: 0; }
-  8% { opacity: 1; filter: drop-shadow(0 0 8px oklch(0.68 0.23 28)); }
-  22% { opacity: 0.2; }
-  34% { opacity: 0.92; filter: drop-shadow(0 0 12px oklch(0.72 0.22 28)); }
-  55% { opacity: 0.45; }
+  8% { opacity: 1; }
+  22% { opacity: 0.18; }
+  34% { opacity: 0.95; }
+  55% { opacity: 0.4; }
   100% { opacity: 0; }
 }
 
@@ -475,6 +475,7 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
+  filter: drop-shadow(0 0 10px #ff2535) drop-shadow(0 0 25px oklch(0.65 0.24 28));
 }
 .global-bolt-svg.bolt-anim {
   animation: global-bolt-flicker 0.58s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
@@ -493,7 +494,6 @@
   stroke-width: 6px;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: url(#globalLightningBloom);
 }
 .global-bolt-core {
   fill: none;
